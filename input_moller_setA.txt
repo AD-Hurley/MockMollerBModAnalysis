@@ -1,0 +1,11 @@
+Coils:1,2,5,6,7
+BPMs Slope Names:1h04X,1h14X,1h04Y,1h14Y,1c12X
+BPMs:bpm1h04X,bpm1h14X,bpm1h04Y,bpm1h14Y,bpm1c12X
+Detectors:tq01_r5c,tq03_r5r,tq04_r1
+ROOT input path:isu_sample_#.root
+Output path:./slopes/
+Rootfile Output Path:./slopes/
+Rootfile Output Runwise:True
+Cut:(ErrorFlag & 0xda7e6bff)==0
+Tree:evt
+Set Name:setA
