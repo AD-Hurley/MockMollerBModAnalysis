@@ -326,7 +326,9 @@ TString BMOD::getEigenVector(Int_t index = 0){
 }
 
 void BMOD::calculateSensitivities(){
-  gStyle->SetOptStat(0); 
+  TCanvas *c1 = new TCanvas("c1","c1");
+  c1->Print("plots.pdf[","open pdf");
+  gStyle->SetOptStat(0);
   if (parameterVectors.count("Tree") == 0 || !file1->Get(parameterVectors["Tree"].at(0).c_str())){
     Printf("Looking in \"evt\" tree for BMOD data");
     std::string tmpTreeStr = "evt";
@@ -654,6 +656,12 @@ void BMOD::calculateSensitivities(){
           TGraph* g2 = new TGraph(ndata, tree_R->GetV2(),tree_R->GetV1());
           fun->SetParameters(init_par);
           g2->Fit("fun","Q0");
+          //c1 = new TCanvas("c1","c1");
+          g2->Draw("P");
+          fun->Draw("SAME");
+          gPad->WaitPrimitive();
+          c1->Print("plots.pdf",Form("cycle_%d_detector-coil-combo_%d",j,i));
+
 
           this_slope = fun->GetParameter(1);
           this_error = fun->GetParError(1);
@@ -672,6 +680,7 @@ void BMOD::calculateSensitivities(){
       } // end of coil loop
       j++;
     } // end of Det loop
+
 /*
     for(int idev=0;idev<(nBPM+nDet);idev++) {
       for(int icoil=0;icoil<nCoil;icoil++) {
@@ -692,6 +701,7 @@ void BMOD::calculateSensitivities(){
       }
     }*/
   } //end of cyc loop
+  c1->Print("plots.pdf]","close pdf");
 }
 
 void BMOD::saveSensitivityData() {
